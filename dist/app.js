@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keyup", controls);
     function drawTetromino() {
         currentTetromino.forEach((index) => {
+            // console.log("draw", index + currentPosition);
             gridSquares[index + currentPosition].classList.add("tetromino");
             gridSquares[index + currentPosition].style.backgroundColor =
                 colors[randomTetromino];
@@ -108,12 +109,19 @@ document.addEventListener("DOMContentLoaded", () => {
         freezeTetromino();
     }
     function moveRight() {
-        undrawTetromino();
-        currentPosition += 1;
-        drawTetromino();
+        let blockPos = 0;
+        currentTetromino.forEach((index) => {
+            blockPos = (index + currentPosition) % squareWidth;
+        });
+        if (blockPos <= 8) {
+            undrawTetromino();
+            currentPosition += 1;
+            drawTetromino();
+        }
     }
     function moveLeft() {
         undrawTetromino();
+        // let a = currentPosition < currentPosition + squareWidth;
         currentPosition -= 1;
         drawTetromino();
     }
@@ -122,10 +130,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const nextRow = index + currentPosition + squareWidth;
             const row = index + currentPosition;
             const isNextRowTaken = gridSquares[row].classList.contains("taken");
-            const isNextRowTetromino = ["taken", "tetromino"].every((className) => {
+            const isNextRowTetrominoAndTaken = ["taken", "tetromino"].every((className) => {
                 return gridSquares[nextRow].classList.contains(className);
             });
-            if (isNextRowTetromino) {
+            if (isNextRowTetrominoAndTaken) {
                 GenerateNextTetromino();
             }
             else if (isNextRowTaken) {
@@ -146,5 +154,3 @@ document.addEventListener("DOMContentLoaded", () => {
         setInterval(() => moveDown(), 100);
     });
 });
-// if the next position is taken freezw the tetromino
-// create another tetromino and draw it onboard
