@@ -80,12 +80,36 @@ document.addEventListener("DOMContentLoaded", () => {
 		"#grid div"
 	) as unknown) as HTMLElement[];
 
+	function controls(e: { keyCode: number }) {
+		if (e.keyCode === 40) {
+			console.log("clcik");
+
+			moveDown();
+		}
+	}
+
+	// setInterval(() => moveDown(), 1000);
+
+	document.addEventListener("keyup", controls);
+
 	function drawTetromino() {
 		currentTetromino.forEach((index) => {
-			console.log(index);
 			squares[index + currentPosition].style.backgroundColor =
 				colors[randomTetromino];
 		});
 	}
 	drawTetromino();
+	function undrawTetromino() {
+		currentTetromino.forEach((index) => {
+			squares[index + currentPosition].style.backgroundColor = "";
+		});
+	}
+
+	// undrawTetromino();
+
+	function moveDown() {
+		undrawTetromino();
+		currentPosition += squareWidth;
+		drawTetromino();
+	}
 });

@@ -69,12 +69,30 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentPosition = 3;
     let currentTetromino = TetrominoShapes[randomTetromino][0];
     const squares = document.querySelectorAll("#grid div");
+    function controls(e) {
+        if (e.keyCode === 40) {
+            console.log("clcik");
+            moveDown();
+        }
+    }
+    // setInterval(() => moveDown(), 1000);
+    document.addEventListener("keyup", controls);
     function drawTetromino() {
         currentTetromino.forEach((index) => {
-            console.log(index);
             squares[index + currentPosition].style.backgroundColor =
                 colors[randomTetromino];
         });
     }
     drawTetromino();
+    function undrawTetromino() {
+        currentTetromino.forEach((index) => {
+            squares[index + currentPosition].style.backgroundColor = "";
+        });
+    }
+    // undrawTetromino();
+    function moveDown() {
+        undrawTetromino();
+        currentPosition += squareWidth;
+        drawTetromino();
+    }
 });
