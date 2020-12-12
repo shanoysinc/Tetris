@@ -83,9 +83,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function controls(e: { keyCode: number }) {
 		if (e.keyCode === 40) {
-			console.log("clcik");
-
 			moveDown();
+		} else if (e.keyCode === 39) {
+			console.log("right");
+			moveRight();
+		} else if (e.keyCode === 38) {
+			console.log("up");
+		} else if (e.keyCode === 37) {
+			console.log("left");
+			moveLeft();
 		}
 	}
 
@@ -108,10 +114,22 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function moveDown() {
-		freezeTetromino();
-
 		undrawTetromino();
 		currentPosition += squareWidth;
+		drawTetromino();
+		freezeTetromino();
+	}
+
+	function moveRight() {
+		undrawTetromino();
+
+		currentPosition += 1;
+		drawTetromino();
+	}
+	function moveLeft() {
+		undrawTetromino();
+
+		currentPosition -= 1;
 		drawTetromino();
 	}
 
