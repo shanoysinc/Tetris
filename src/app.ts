@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	];
 	let randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
 
-	const colors = ["orange", "yellow", "green", "purple", "red"];
+	const colors = ["#6155a6", "#e05297", "#f64b3c", "#30e3ca", "#ff2e63"];
 	let currentPosition = 4;
 	let rotateTetromino = 0;
 	let currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
@@ -106,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				colors[randomTetromino];
 		});
 	}
+
 	drawTetromino();
 	function undrawTetromino() {
 		currentTetromino.forEach((index) => {
@@ -122,34 +123,40 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function moveRight() {
-		let blockPos = 0;
-
-		currentTetromino.forEach((index) => {
-			blockPos = (index + currentPosition) % squareWidth;
-		});
-
-		if (blockPos <= 8) {
-			console.log("right", blockPos);
-
-			undrawTetromino();
-
-			currentPosition += 1;
-			drawTetromino();
-		}
-	}
-	function moveLeft() {
-		//need work on
-		let blockPos = 0;
-
-		currentTetromino.forEach((index) => {
-			blockPos = (index + currentPosition) % squareWidth;
-		});
-
-		console.log("left", currentPosition % squareWidth);
 		undrawTetromino();
 
-		currentPosition -= 1;
-		console.log("current pos", currentPosition);
+		const isAtRightEdge = currentTetromino.some((index) => {
+			return (index + currentPosition) % squareWidth == squareWidth - 1;
+		});
+
+		const isTaken = currentTetromino.some((index) => {
+			return gridSquares[
+				currentPosition + 1 + index + squareWidth
+			].classList.contains("taken");
+		});
+
+		if (!isAtRightEdge && !isTaken) currentPosition += 1;
+
+		drawTetromino();
+	}
+
+	function moveLeft() {
+		undrawTetromino();
+
+		const isAtLeftEdge = currentTetromino.some(
+			(index) => (currentPosition + index) % squareWidth === 0
+		);
+
+		const isTaken = currentTetromino.some((index) => {
+			return gridSquares[
+				currentPosition - 1 + index + squareWidth
+			].classList.contains("taken");
+		});
+		if (!isAtLeftEdge && !isTaken) currentPosition -= 1;
+
+		// if (isTaken) {
+		// 	currentPosition += 1;
+		// }
 
 		drawTetromino();
 	}
@@ -177,9 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 			);
 
-			if (isNextRowTetrominoAndTaken) {
-				GenerateNextTetromino();
-			} else if (isNextRowTaken) {
+			if (isNextRowTetrominoAndTaken || isNextRowTaken) {
 				GenerateNextTetromino();
 			}
 
@@ -197,6 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		});
 	}
+
 	startBtn.addEventListener("click", () => {
 		setInterval(() => moveDown(), 200);
 	});

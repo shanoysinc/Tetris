@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         iTetromino,
     ];
     let randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
-    const colors = ["orange", "yellow", "green", "purple", "red"];
+    const colors = ["#6155a6", "#e05297", "#f64b3c", "#30e3ca", "#ff2e63"];
     let currentPosition = 4;
     let rotateTetromino = 0;
     let currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
@@ -110,27 +110,28 @@ document.addEventListener("DOMContentLoaded", () => {
         freezeTetromino();
     }
     function moveRight() {
-        let blockPos = 0;
-        currentTetromino.forEach((index) => {
-            blockPos = (index + currentPosition) % squareWidth;
+        undrawTetromino();
+        const isAtRightEdge = currentTetromino.some((index) => {
+            return (index + currentPosition) % squareWidth == squareWidth - 1;
         });
-        if (blockPos <= 8) {
-            console.log("right", blockPos);
-            undrawTetromino();
+        const isTaken = currentTetromino.some((index) => {
+            return gridSquares[currentPosition + 1 + index + squareWidth].classList.contains("taken");
+        });
+        if (!isAtRightEdge && !isTaken)
             currentPosition += 1;
-            drawTetromino();
-        }
+        drawTetromino();
     }
     function moveLeft() {
-        //need work on
-        let blockPos = 0;
-        currentTetromino.forEach((index) => {
-            blockPos = (index + currentPosition) % squareWidth;
-        });
-        console.log("left", currentPosition % squareWidth);
         undrawTetromino();
-        currentPosition -= 1;
-        console.log("current pos", currentPosition);
+        const isAtLeftEdge = currentTetromino.some((index) => (currentPosition + index) % squareWidth === 0);
+        const isTaken = currentTetromino.some((index) => {
+            return gridSquares[currentPosition - 1 + index + squareWidth].classList.contains("taken");
+        });
+        if (!isAtLeftEdge && !isTaken)
+            currentPosition -= 1;
+        // if (isTaken) {
+        // 	currentPosition += 1;
+        // }
         drawTetromino();
     }
     function rotate() {
@@ -151,10 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const isNextRowTetrominoAndTaken = ["taken", "tetromino"].every((className) => {
                 return gridSquares[nextRow].classList.contains(className);
             });
-            if (isNextRowTetrominoAndTaken) {
-                GenerateNextTetromino();
-            }
-            else if (isNextRowTaken) {
+            if (isNextRowTetrominoAndTaken || isNextRowTaken) {
                 GenerateNextTetromino();
             }
             function GenerateNextTetromino() {
@@ -172,3 +170,4 @@ document.addEventListener("DOMContentLoaded", () => {
         setInterval(() => moveDown(), 200);
     });
 });
+//# sourceMappingURL=app.js.map
