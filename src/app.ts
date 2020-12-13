@@ -75,7 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const colors = ["orange", "yellow", "green", "purple", "red"];
 	let currentPosition = 3;
-	let currentTetromino = TetrominoShapes[randomTetromino][0];
+	let rotateTetromino = 0;
+	let currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
 
 	const gridSquares = (document.querySelectorAll(
 		"#grid div"
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			moveRight();
 		} else if (e.keyCode === 38) {
 			console.log("up");
+			rotate();
 		} else if (e.keyCode === 37) {
 			console.log("left");
 			moveLeft();
@@ -124,11 +126,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function moveRight() {
 		let blockPos = 0;
+
 		currentTetromino.forEach((index) => {
 			blockPos = (index + currentPosition) % squareWidth;
 		});
 
 		if (blockPos <= 8) {
+			console.log("right", blockPos);
+
 			undrawTetromino();
 
 			currentPosition += 1;
@@ -136,10 +141,30 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 	function moveLeft() {
+		//need work on
+		let blockPos = 0;
+
+		currentTetromino.forEach((index) => {
+			blockPos = (index + currentPosition) % squareWidth;
+		});
+
+		console.log("left", currentPosition % squareWidth);
 		undrawTetromino();
 
-		// let a = currentPosition < currentPosition + squareWidth;
 		currentPosition -= 1;
+		console.log("current pos", currentPosition);
+
+		drawTetromino();
+	}
+
+	function rotate() {
+		undrawTetromino();
+		console.log(TetrominoShapes[randomTetromino]);
+		rotateTetromino += 1;
+		if (rotateTetromino === 4) {
+			rotateTetromino = 0;
+		}
+		currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
 		drawTetromino();
 	}
 
