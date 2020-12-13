@@ -71,12 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
 		oTetromino,
 		iTetromino,
 	];
+
 	let randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
 
 	const colors = ["#6155a6", "#e05297", "#f64b3c", "#30e3ca", "#ff2e63"];
 	let currentPosition = 4;
 	let rotateTetromino = 0;
 	let currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
+	let timeSet: number | null = null;
 
 	const gridSquares = (document.querySelectorAll(
 		"#grid div"
@@ -157,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		drawTetromino();
 	}
 
+	//needs work of rotation of tetromino at edge
 	function rotate() {
 		rotateTetromino += 1;
 		if (rotateTetromino === 4) {
@@ -203,14 +206,18 @@ document.addEventListener("DOMContentLoaded", () => {
 			const row = index + currentPosition;
 			const isNextRowTaken = gridSquares[row].classList.contains("taken");
 
+			if (isNextRowTaken) {
+				return GenerateNextTetromino();
+			}
+
 			const isNextRowTetrominoAndTaken = ["taken", "tetromino"].every(
 				(className) => {
 					return gridSquares[nextRow].classList.contains(className);
 				}
 			);
 
-			if (isNextRowTetrominoAndTaken || isNextRowTaken) {
-				GenerateNextTetromino();
+			if (isNextRowTetrominoAndTaken) {
+				return GenerateNextTetromino();
 			}
 
 			function GenerateNextTetromino() {
@@ -229,6 +236,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	startBtn.addEventListener("click", () => {
-		setInterval(() => moveDown(), 200);
+		if (timeSet == null) {
+			timeSet = setInterval(() => moveDown(), 200);
+		} else {
+			clearInterval(timeSet);
+			timeSet = null;
+		}
 	});
 });
