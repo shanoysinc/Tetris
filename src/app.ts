@@ -154,22 +154,47 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 		if (!isAtLeftEdge && !isTaken) currentPosition -= 1;
 
-		// if (isTaken) {
-		// 	currentPosition += 1;
-		// }
-
 		drawTetromino();
 	}
 
 	function rotate() {
-		undrawTetromino();
-		console.log(TetrominoShapes[randomTetromino]);
 		rotateTetromino += 1;
 		if (rotateTetromino === 4) {
 			rotateTetromino = 0;
 		}
-		currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
-		drawTetromino();
+
+		const nextRotatePosition =
+			TetrominoShapes[randomTetromino][rotateTetromino];
+
+		const isAtLeftEdge = nextRotatePosition.some((index) => {
+			return (currentPosition + index) % squareWidth === 0;
+		});
+
+		let tetrominoPos = currentPosition;
+		const isAtRightEdge = currentTetromino.some((index) => {
+			tetrominoPos = (index + currentPosition) % squareWidth;
+			return tetrominoPos % squareWidth === squareWidth - 1;
+		});
+
+		if (tetrominoPos <= 3) {
+			if (!isAtLeftEdge) {
+				undrawTetromino();
+
+				currentTetromino =
+					TetrominoShapes[randomTetromino][rotateTetromino];
+
+				drawTetromino();
+			}
+		} else if (tetrominoPos >= 4) {
+			if (!isAtRightEdge) {
+				undrawTetromino();
+
+				currentTetromino =
+					TetrominoShapes[randomTetromino][rotateTetromino];
+
+				drawTetromino();
+			}
+		}
 	}
 
 	function freezeTetromino() {
