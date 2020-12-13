@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         [squareWidth, squareWidth + 1, squareWidth + 2, squareWidth * 2 + 2],
         [1, squareWidth + 1, squareWidth * 2 + 1, squareWidth * 2],
         [
-            squareWidth,
+            squareWidth * 2,
             squareWidth + 2,
             squareWidth * 2 + 1,
             squareWidth * 2 + 2,
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
     let randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
     const colors = ["orange", "yellow", "green", "purple", "red"];
-    let currentPosition = 3;
+    let currentPosition = 4;
     let rotateTetromino = 0;
     let currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
     const gridSquares = document.querySelectorAll("#grid div");
@@ -91,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keyup", controls);
     function drawTetromino() {
         currentTetromino.forEach((index) => {
-            // console.log("draw", index + currentPosition);
             gridSquares[index + currentPosition].classList.add("tetromino");
             gridSquares[index + currentPosition].style.backgroundColor =
                 colors[randomTetromino];
@@ -170,6 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     startBtn.addEventListener("click", () => {
-        setInterval(() => moveDown(), 100);
+        setInterval(() => moveDown(), 200);
     });
 });
