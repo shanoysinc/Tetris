@@ -6,6 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
 	const grid = document.querySelector("#grid");
 	const startBtn = document.querySelector("#startBtn") as HTMLButtonElement;
 	const scoreElement = document.querySelector(".score") as HTMLButtonElement;
+	const themeMusic = document.querySelector(
+		".themeMusic"
+	) as HTMLAudioElement;
+	const clearBlockAudio = document.querySelector(
+		".clearBlock"
+	) as HTMLAudioElement;
+	const gameOverAudio = document.querySelector(
+		".gameOverAudio"
+	) as HTMLAudioElement;
 	let score = 0;
 
 	function generateGrid() {
@@ -266,8 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (gridlength - 10 === index) {
 				gridlength = index;
 				if (numOfTetrominoBlock == 0) {
-					console.log("numoftetromino", numOfTetrominoBlock);
-
 					gridlength = gridSquares.length;
 
 					break;
@@ -315,19 +322,26 @@ document.addEventListener("DOMContentLoaded", () => {
 					gridSquares[index].style.backgroundColor = "";
 				}
 			}
+			clearBlockAudio.play();
 		}
 	}
 
 	function gameOver(currentPosition: number) {
 		if (currentPosition <= 30) {
+			themeMusic.pause();
+			gameOverAudio.play();
 			clearInterval(timeSet);
 		}
 	}
 
 	startBtn.addEventListener("click", () => {
 		if (timeSet == undefined) {
+			themeMusic.play();
+
 			timeSet = setInterval(() => moveDown(), 100);
 		} else {
+			themeMusic.pause();
+
 			clearInterval(timeSet);
 			timeSet = undefined;
 		}

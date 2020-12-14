@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const grid = document.querySelector("#grid");
     const startBtn = document.querySelector("#startBtn");
     const scoreElement = document.querySelector(".score");
+    const themeMusic = document.querySelector(".themeMusic");
+    const clearBlockAudio = document.querySelector(".clearBlock");
+    const gameOverAudio = document.querySelector(".gameOverAudio");
     let score = 0;
     function generateGrid() {
         for (let i = 0; i < 210; i++) {
@@ -209,7 +212,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (gridlength - 10 === index) {
                 gridlength = index;
                 if (numOfTetrominoBlock == 0) {
-                    console.log("numoftetromino", numOfTetrominoBlock);
                     gridlength = gridSquares.length;
                     break;
                 }
@@ -250,18 +252,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     gridSquares[index].style.backgroundColor = "";
                 }
             }
+            clearBlockAudio.play();
         }
     }
     function gameOver(currentPosition) {
         if (currentPosition <= 30) {
+            themeMusic.pause();
+            gameOverAudio.play();
             clearInterval(timeSet);
         }
     }
     startBtn.addEventListener("click", () => {
         if (timeSet == undefined) {
+            themeMusic.play();
             timeSet = setInterval(() => moveDown(), 100);
         }
         else {
+            themeMusic.pause();
             clearInterval(timeSet);
             timeSet = undefined;
         }

@@ -1,0 +1,31 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Tetris</title>
+</head>
+
+<body>
+
+    <h2>Score: <span class="score">0</span></h2>
+    <button id="startBtn">Start/Pause</button>
+
+    <div class="container">
+        <div id="grid"></div>
+        <div id="mini-grid"></div>
+    </div>
+    <audio class="themeMusic" src="audio/TetrisSoundtrack.mp3">
+        <p>If you are reading this, it is because your browser does not support the audio element. </p>
+    </audio>
+    <audio class="clearBlock" src="audio/clearblock.mp3">
+        <p>If you are reading this, it is because your browser does not support the audio element. </p>
+    </audio>
+    <audio class="gameOverAudio" src="audio/Mario Dying Sound.mp3">
+        <p>If you are reading this, it is because your browser does not support the audio element. </p>
+    </audio>
+    <script src="dist/app.js"></script>
+</body>
+
+</html>
