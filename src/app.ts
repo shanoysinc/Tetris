@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	let currentPosition = 4;
 	let rotateTetromino = 0;
 	let currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
-	let timeSet: number | null = null;
+	let timeSet: number | undefined;
 
 	const gridSquares = (document.querySelectorAll(
 		"#grid div"
@@ -232,6 +232,8 @@ document.addEventListener("DOMContentLoaded", () => {
 					gridSquares[index + currentPosition].classList.add("taken");
 				});
 
+				gameOver(currentPosition);
+
 				currentPosition = 3;
 				randomTetromino = Math.floor(
 					Math.random() * TetrominoShapes.length
@@ -246,7 +248,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	let gridlength = gridSquares.length;
 	let numOfTetrominoBlock = 0;
-	console.log(gridSquares.length);
 	let cacheBlockPosition: TetrominoCache = {};
 
 	function findCompleteRow() {
@@ -315,15 +316,20 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 			}
 		}
-		console.log(cacheBlockPosition);
+	}
+
+	function gameOver(currentPosition: number) {
+		if (currentPosition <= 30) {
+			clearInterval(timeSet);
+		}
 	}
 
 	startBtn.addEventListener("click", () => {
-		if (timeSet == null) {
+		if (timeSet == undefined) {
 			timeSet = setInterval(() => moveDown(), 100);
 		} else {
 			clearInterval(timeSet);
-			timeSet = null;
+			timeSet = undefined;
 		}
 	});
 });
