@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		drawTetromino();
 	}
 
-	//needs work of rotation of tetromino at edge
+	//needs work on rotation of tetromino at edge
 	function rotate() {
 		rotateTetromino += 1;
 		if (rotateTetromino === 4) {
