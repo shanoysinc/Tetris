@@ -2,6 +2,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const grid = document.querySelector("#grid");
     const startBtn = document.querySelector("#startBtn");
+    const scoreElement = document.querySelector(".score");
+    let score = 0;
     function generateGrid() {
         for (let i = 0; i < 210; i++) {
             const divElement = document.createElement("div");
@@ -77,15 +79,15 @@ document.addEventListener("DOMContentLoaded", () => {
             moveDown();
         }
         else if (e.keyCode === 39) {
-            console.log("right");
+            // console.log("right");
             moveRight();
         }
         else if (e.keyCode === 38) {
-            console.log("up");
+            // console.log("up");
             rotate();
         }
         else if (e.keyCode === 37) {
-            console.log("left");
+            // console.log("left");
             moveLeft();
         }
     }
@@ -186,12 +188,57 @@ document.addEventListener("DOMContentLoaded", () => {
                 randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
                 currentTetromino = TetrominoShapes[randomTetromino][0];
                 drawTetromino();
+                findCompleteRow();
             }
         });
     }
+    let gridlength = gridSquares.length;
+    let numOfTetrominoBlock = 0;
+    console.log(gridSquares.length);
+    function findCompleteRow() {
+        //check if the row is complete
+        // if a row has no tetromino break loop
+        // if row is complete
+        // remove tetromino and taken from those block
+        // add 100 to the score
+        // if number of tetromino block is 9 remove those block
+        // let fullRow = false;
+        for (let index = gridSquares.length - 1; index >= 0; index--) {
+            // console.log(index);
+            const hasTetromino = gridSquares[index].classList.contains("tetromino");
+            if (hasTetromino) {
+                numOfTetrominoBlock += 1;
+                if (numOfTetrominoBlock === 10) {
+                    removeBlocks(gridlength - 10, gridlength);
+                    numOfTetrominoBlock = 0;
+                }
+            }
+            // console.log(numOfTetrominoBlock);
+            if (gridlength - 10 === index) {
+                gridlength = index;
+                if (numOfTetrominoBlock == 0) {
+                    gridlength = gridSquares.length;
+                    break;
+                }
+                numOfTetrominoBlock = 0;
+            }
+        }
+        numOfTetrominoBlock = 0;
+        gridlength = gridSquares.length;
+        function removeBlocks(min, max) {
+            console.log("mimax", min, max);
+            for (let index = min; index <= max - 1; index++) {
+                // gridSquares[index].classList.remove("taken");
+                gridSquares[index].classList.remove("tetromino");
+                gridSquares[index].style.backgroundColor = "";
+            }
+            score += 100;
+            scoreElement.textContent = `${score}`;
+        }
+    }
     startBtn.addEventListener("click", () => {
         if (timeSet == null) {
-            timeSet = setInterval(() => moveDown(), 200);
+            timeSet = setInterval(() => moveDown(), 100);
         }
         else {
             clearInterval(timeSet);
