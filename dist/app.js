@@ -71,7 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
         iTetromino,
     ];
     let randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
-    const colors = ["#6155a6", "#e05297", "#f64b3c", "#30e3ca", "#ff2e63"];
+    // green -> purple -> yellow -> blue -> red
+    const colors = [
+        "hsl(126, 55%, 37%)",
+        "hsl(276, 91%, 38%)",
+        "hsl(60, 92%, 55%)",
+        "hsl(229, 83%, 55%)",
+        "hsl(345, 100%, 55%)",
+    ];
     let currentPosition = 4;
     let rotateTetromino = 0;
     let currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
@@ -265,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startBtn.addEventListener("click", () => {
         if (timeSet == undefined) {
             themeMusic.play();
-            timeSet = setInterval(() => moveDown(), 100);
+            timeSet = setInterval(() => moveDown(), 250);
         }
         else {
             themeMusic.pause();

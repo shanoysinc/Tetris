@@ -13,17 +13,28 @@ body {
 	display: grid;
 	margin-left: 30px;
 	grid-template-columns: repeat(10, 1fr);
-	/* padding: 3px; */
+	padding: 4px;
+	border-radius: 5px;
 	gap: 4px;
-	width: 200px;
-	height: 400px;
-	background-color: hsl(208, 97%, 87%);
+	width: fit-content;
+	height: fit-content;
+	/* background-color: hsl(208, 97%, 87%); */
+	background-color: hsl(210, 2%, 10%);
 }
 
 #grid > div {
-	background-color: hsl(209, 100%, 82%);
-	border-radius: 4px;
-	/* height: 20px;
-	width: 20px; */
+	background-color: hsla(210, 3%, 15%);
+
 	padding: 10px;
+}
+.tetromino {
+	border-radius: 4px;
+
+	box-shadow: 1px 5px 22px -3px #000000;
+}
+
+.bloc {
+	height: 50px;
+	width: 50px;
+	background-color: hsl(276, 91%, 38%);
 }
