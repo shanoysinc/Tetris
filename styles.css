@@ -103,3 +103,14 @@ body {
 
 	box-shadow: 1px 5px 22px -3px #000000;
 }
+
+.author {
+	color: white;
+	text-align: center;
+	padding-top: 0.5em;
+	font-size: 1.1rem;
+}
+.author > a {
+	color: hsl(60, 92%, 55%);
+	text-decoration: none;
+}
