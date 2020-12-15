@@ -100,6 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // console.log("left");
             moveLeft();
         }
+        else if (e.keyCode === 32) {
+            // moveFaster();
+            // console.log("space");
+        }
     }
     document.addEventListener("keyup", controls);
     function drawTetromino() {
@@ -132,7 +136,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         if (!isAtRightEdge && !isTaken)
             currentPosition += 1;
+        clearInterval(timeSet);
+        timeSet = setInterval(() => moveDown(), 800);
         drawTetromino();
+    }
+    function moveFaster() {
+        clearInterval(timeSet);
+        timeSet = setInterval(() => moveDown(), 100);
     }
     function moveLeft() {
         undrawTetromino();
@@ -272,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startBtn.addEventListener("click", () => {
         if (timeSet == undefined) {
             themeMusic.play();
-            timeSet = setInterval(() => moveDown(), 250);
+            timeSet = setInterval(() => moveDown(), 800);
         }
         else {
             themeMusic.pause();

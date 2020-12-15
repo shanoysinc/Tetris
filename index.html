@@ -8,15 +8,29 @@
 </head>
 
 <body>
-    <div class="bloc"></div>
-
-    <h2>Score: <span class="score">0</span></h2>
-    <button id="startBtn">Start/Pause</button>
-
+    <h1 class="title">
+        <span class="">T</span>
+        <span class="">E</span>
+        <span class="">T</span>
+        <span class="">R</span>
+        <span class="">I</span>
+        <span class="">S</span>
+    </h1>
     <div class="container">
-        <div id="grid"></div>
-        <div id="mini-grid"></div>
+        <div class="scoreContainer">
+            <h2>Score</h2>
+            <div class="score">0</div>
+            <button id="startBtn">Start / Pause</button>
+        </div>
+
+        <div class="container">
+            <div id="grid"></div>
+            <div id="mini-grid"></div>
+        </div>
     </div>
+
+
+
     <audio class="themeMusic" src="audio/TetrisSoundtrack.mp3" loop="true">
         <p>If you are reading this, it is because your browser does not support the audio element. </p>
     </audio>

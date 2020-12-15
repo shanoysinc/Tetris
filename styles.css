@@ -6,14 +6,87 @@
 	padding: 0;
 }
 body {
-	background-color: hsl(60, 5%, 85%);
-	/* background-color: hsl(337, 100%, 80%); */
+	/* background-color: hsl(60, 100%, 89%); */
+	/* background-color: #283c63; */
+	background: linear-gradient(
+		90deg,
+		rgba(60, 22, 34, 1) 9%,
+		rgba(40, 60, 99, 1) 100%
+	);
 }
+
+.title {
+	text-align: center;
+	font-size: 4rem;
+	text-transform: uppercase;
+}
+.title > span {
+	margin-left: -0.25em;
+}
+
+.title > :first-child {
+	color: hsl(345, 100%, 55%);
+}
+.title > :nth-child(2) {
+	color: hsl(46, 92%, 55%);
+}
+.title > :nth-child(3) {
+	color: hsl(60, 92%, 55%);
+}
+.title > :nth-child(4) {
+	color: hsl(126, 55%, 37%);
+}
+.title > :nth-child(5) {
+	color: hsl(229, 83%, 55%);
+}
+.title > :nth-child(6) {
+	color: hsl(276, 91%, 38%);
+}
+.container {
+	/* margin-top: 2em; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.scoreContainer {
+	background-color: hsl(210, 2%, 10%);
+	border-radius: 4px;
+
+	padding: 2em;
+	color: white;
+}
+.scoreContainer > h2 {
+	font-size: 2rem;
+	text-align: center;
+	text-transform: uppercase;
+}
+.scoreContainer > .score {
+	background-color: hsla(210, 3%, 15%);
+	font-size: 2rem;
+	margin: 0.5em 0;
+	text-align: center;
+	border-radius: 4px;
+	text-transform: uppercase;
+}
+
+.scoreContainer > button {
+	text-transform: capitalize;
+	padding: 0.5em 1em;
+	font-size: 1rem;
+	background-color: hsl(126, 55%, 37%);
+	color: white;
+	outline: none;
+	cursor: pointer;
+	border: 0;
+	border-radius: 4px;
+}
+
 #grid {
 	display: grid;
 	margin-left: 30px;
 	grid-template-columns: repeat(10, 1fr);
-	padding: 4px;
+	padding: 5px;
 	border-radius: 5px;
 	gap: 4px;
 	width: fit-content;
@@ -31,10 +104,4 @@ body {
 	border-radius: 4px;
 
 	box-shadow: 1px 5px 22px -3px #000000;
-}
-
-.bloc {
-	height: 50px;
-	width: 50px;
-	background-color: hsl(276, 91%, 38%);
 }
