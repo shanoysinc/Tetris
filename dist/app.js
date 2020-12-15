@@ -2,6 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const grid = document.querySelector("#grid");
     const startBtn = document.querySelector("#startBtn");
+    const restartBtn = document.querySelector("#restartBtn");
     const scoreElement = document.querySelector(".score");
     const themeMusic = document.querySelector(".themeMusic");
     const clearBlockAudio = document.querySelector(".clearBlock");
@@ -289,6 +290,25 @@ document.addEventListener("DOMContentLoaded", () => {
             clearInterval(timeSet);
             timeSet = undefined;
         }
+    });
+    restartBtn.addEventListener("click", () => {
+        score = 0;
+        scoreElement.textContent = `${score}`;
+        currentPosition = 4;
+        randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
+        currentTetromino = TetrominoShapes[randomTetromino][0];
+        gridSquares.forEach((block, index) => {
+            if (index < 200) {
+                block.classList.remove("tetromino");
+                block.classList.remove("taken");
+            }
+            else {
+                block.classList.remove("tetromino");
+            }
+            block.style.backgroundColor = "";
+        });
+        startBtn.click();
+        startBtn.click();
     });
 });
 //# sourceMappingURL=app.js.map
