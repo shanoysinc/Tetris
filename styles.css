@@ -88,7 +88,7 @@ body {
 
 #grid {
 	display: grid;
-	margin-left: 30px;
+	margin-left: 2em;
 	grid-template-columns: repeat(10, 1fr);
 	padding: 5px;
 	border-radius: 5px;
@@ -103,6 +103,30 @@ body {
 	background-color: hsla(210, 3%, 15%);
 
 	padding: 10px;
+}
+
+.miniGrid__Container {
+	margin-left: 2em;
+	align-self: flex-start;
+}
+
+.miniGrid {
+	border-radius: 4px;
+	background-color: hsl(210, 2%, 10%);
+	padding: 1em 2em 2em 2em;
+}
+.miniGrid > h2 {
+	font-size: 2rem;
+	margin-bottom: 0.5em;
+	text-transform: uppercase;
+	color: white;
+	text-align: center;
+}
+
+.miniGrid > .nextTetromino {
+	border-radius: 4px;
+	background-color: hsla(210, 3%, 15%);
+	padding: 5em;
 }
 .tetromino {
 	border-radius: 4px;
