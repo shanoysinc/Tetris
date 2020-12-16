@@ -155,7 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
             currentPosition -= 1;
         drawTetromino();
     }
-    //needs work on rotation of tetromino at edge
     function rotate() {
         rotateTetromino += 1;
         if (rotateTetromino === 4) {
@@ -205,11 +204,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 currentTetromino.forEach((index) => {
                     gridSquares[index + currentPosition].classList.add("taken");
                 });
+                score += 10;
+                scoreElement.textContent = `${score}`;
                 gameOver(currentPosition);
                 currentPosition = 3;
                 randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
                 currentTetromino = TetrominoShapes[randomTetromino][0];
-                findCompleteRow();
+                // findCompleteRow();
+                findRow();
                 drawTetromino();
             }
         });
@@ -217,18 +219,28 @@ document.addEventListener("DOMContentLoaded", () => {
     let gridlength = gridSquares.length;
     let numOfTetrominoBlock = 0;
     let cacheBlockPosition = {};
-    function findCompleteRow() {
+    let startRow = 0;
+    let endRow = 0;
+    function findRow() {
         for (let index = gridSquares.length - 1; index >= 0; index--) {
             const hasTetromino = gridSquares[index].classList.contains("tetromino");
             if (hasTetromino) {
                 numOfTetrominoBlock += 1;
-                if (numOfTetrominoBlock === 10) {
-                    removeBlocks(gridlength - 10, gridlength);
-                    numOfTetrominoBlock = 0;
+                if (numOfTetrominoBlock === 1) {
+                    endRow = index;
                 }
             }
             if (gridlength - 10 === index) {
+                startRow = index;
+                if (numOfTetrominoBlock === 10) {
+                    removeBlocks(startRow, endRow);
+                    numOfTetrominoBlock = 0;
+                    // return findCompleteRow();
+                    endRow = 0;
+                    startRow = 0;
+                }
                 gridlength = index;
+                // if row is has no tetromino just break
                 if (numOfTetrominoBlock == 0) {
                     gridlength = gridSquares.length;
                     break;
@@ -236,43 +248,107 @@ document.addEventListener("DOMContentLoaded", () => {
                 numOfTetrominoBlock = 0;
             }
         }
-        numOfTetrominoBlock = 0;
-        gridlength = gridSquares.length;
-        function removeBlocks(min, max) {
-            for (let index = min; index <= max - 1; index++) {
+    }
+    function removeBlocks(startRow, endRow) {
+        console.log(startRow, endRow);
+        for (let index = startRow; index <= endRow; index++) {
+            if (startRow < 200) {
+                gridSquares[index].classList.remove("taken");
+            }
+            gridSquares[index].classList.remove("tetromino");
+            gridSquares[index].style.backgroundColor = "";
+        }
+        undrawAllTetromino();
+        drawAllTetromino();
+        score += 100;
+        scoreElement.textContent = `${score}`;
+    }
+    function undrawAllTetromino() {
+        for (let index = gridlength - 1; index >= 0; index--) {
+            const hasTetromino = gridSquares[index].classList.contains("tetromino");
+            if (index < 200 && hasTetromino) {
+                cacheBlockPosition[index] =
+                    gridSquares[index].style.backgroundColor;
                 gridSquares[index].classList.remove("tetromino");
+                gridSquares[index].classList.remove("taken");
                 gridSquares[index].style.backgroundColor = "";
             }
-            undrawAllTetromino();
-            drawAllTetromino();
-            score += 100;
-            scoreElement.textContent = `${score}`;
         }
-        function drawAllTetromino() {
-            let pos;
-            for (pos in cacheBlockPosition) {
-                const nextPos = parseInt(pos) + squareWidth;
-                gridSquares[nextPos].classList.add("tetromino");
-                gridSquares[nextPos].classList.add("taken");
-                gridSquares[nextPos].style.backgroundColor =
-                    cacheBlockPosition[pos];
-            }
-            cacheBlockPosition = {};
-        }
-        function undrawAllTetromino() {
-            for (let index = gridlength - 1; index >= 0; index--) {
-                const hasTetromino = gridSquares[index].classList.contains("tetromino");
-                if (index < 200 && hasTetromino) {
-                    cacheBlockPosition[index] =
-                        gridSquares[index].style.backgroundColor;
-                    gridSquares[index].classList.remove("tetromino");
-                    gridSquares[index].classList.remove("taken");
-                    gridSquares[index].style.backgroundColor = "";
-                }
-            }
-            clearBlockAudio.play();
-        }
+        clearBlockAudio.play();
     }
+    function drawAllTetromino() {
+        let pos;
+        for (pos in cacheBlockPosition) {
+            const nextPos = parseInt(pos) + squareWidth;
+            gridSquares[nextPos].classList.add("tetromino");
+            gridSquares[nextPos].classList.add("taken");
+            gridSquares[nextPos].style.backgroundColor =
+                cacheBlockPosition[pos];
+        }
+        cacheBlockPosition = {};
+    }
+    /// UN USED
+    // function findCompleteRow(): typeof findCompleteRow | void {
+    // 	for (let index = gridSquares.length - 1; index >= 0; index--) {
+    // 		const hasTetromino = gridSquares[index].classList.contains(
+    // 			"tetromino"
+    // 		);
+    // 		if (hasTetromino) {
+    // 			numOfTetrominoBlock += 1;
+    // 			if (numOfTetrominoBlock === 10) {
+    // 				removeBlocks(gridlength - 10, gridlength);
+    // 				numOfTetrominoBlock = 0;
+    // 				return findCompleteRow();
+    // 			}
+    // 		}
+    // 		if (gridlength - 10 === index) {
+    // 			gridlength = index;
+    // 			if (numOfTetrominoBlock == 0) {
+    // 				gridlength = gridSquares.length;
+    // 				break;
+    // 			}
+    // 			numOfTetrominoBlock = 0;
+    // 		}
+    // 	}
+    // 	numOfTetrominoBlock = 0;
+    // 	gridlength = gridSquares.length;
+    // 	function removeBlocks(min: number, max: number) {
+    // 		for (let index = min; index <= max - 1; index++) {
+    // 			gridSquares[index].classList.remove("tetromino");
+    // 			gridSquares[index].style.backgroundColor = "";
+    // 		}
+    // 		undrawAllTetromino();
+    // 		drawAllTetromino();
+    // 		score += 100;
+    // 		scoreElement.textContent = `${score}`;
+    // 	}
+    // 	function drawAllTetromino() {
+    // 		let pos: keyof typeof cacheBlockPosition;
+    // 		for (pos in cacheBlockPosition) {
+    // 			const nextPos = parseInt(pos) + squareWidth;
+    // 			gridSquares[nextPos].classList.add("tetromino");
+    // 			gridSquares[nextPos].classList.add("taken");
+    // 			gridSquares[nextPos].style.backgroundColor =
+    // 				cacheBlockPosition[pos];
+    // 		}
+    // 		cacheBlockPosition = {};
+    // 	}
+    // 	function undrawAllTetromino() {
+    // 		for (let index = gridlength - 1; index >= 0; index--) {
+    // 			const hasTetromino = gridSquares[index].classList.contains(
+    // 				"tetromino"
+    // 			);
+    // 			if (index < 200 && hasTetromino) {
+    // 				cacheBlockPosition[index] =
+    // 					gridSquares[index].style.backgroundColor;
+    // 				gridSquares[index].classList.remove("tetromino");
+    // 				gridSquares[index].classList.remove("taken");
+    // 				gridSquares[index].style.backgroundColor = "";
+    // 			}
+    // 		}
+    // 		clearBlockAudio.play();
+    // 	}
+    // }
     function gameOver(currentPosition) {
         if (currentPosition <= 30) {
             themeMusic.pause();
@@ -311,4 +387,12 @@ document.addEventListener("DOMContentLoaded", () => {
         startBtn.click();
     });
 });
+// issues
+// when row complete some block still left with taken @@@@
+// needs work on rotation of tetromino at edge @
+// some of the tetromino that should rotate at the edge wont rotate @
+// when multiple row are complete only one is remove until the next round @@@@@
+// updates
+// add mini map functionality  @@@
+// tetromino moves faster when sapce bar is click  @@
 //# sourceMappingURL=app.js.map
