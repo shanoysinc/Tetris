@@ -10,15 +10,21 @@ document.addEventListener("DOMContentLoaded", () => {
 	) as HTMLButtonElement;
 
 	const scoreElement = document.querySelector(".score") as HTMLButtonElement;
+
+	const miniGrid = document.querySelector(".nextTetromino");
+
 	const themeMusic = document.querySelector(
 		".themeMusic"
 	) as HTMLAudioElement;
+
 	const clearBlockAudio = document.querySelector(
 		".clearBlock"
 	) as HTMLAudioElement;
+
 	const gameOverAudio = document.querySelector(
 		".gameOverAudio"
 	) as HTMLAudioElement;
+
 	let score = 0;
 
 	function generateGrid() {
@@ -30,8 +36,15 @@ document.addEventListener("DOMContentLoaded", () => {
 			grid?.appendChild(divElement);
 		}
 	}
+	function generateMiniGrid() {
+		for (let i = 0; i < 25; i++) {
+			const divElement = document.createElement("div");
+			miniGrid?.appendChild(divElement);
+		}
+	}
 
 	generateGrid();
+	generateMiniGrid();
 
 	const squareWidth = 10;
 
@@ -92,8 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		iTetromino,
 	];
 
-	let randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
-
 	// green -> purple -> yellow -> blue -> red
 	const colors = [
 		"hsl(126, 55%, 37%)",
@@ -104,6 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	];
 	let currentPosition = 4;
 	let rotateTetromino = 0;
+	let randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
+	let nextRandom = Math.floor(Math.random() * TetrominoShapes.length);
+
 	let currentTetromino = TetrominoShapes[randomTetromino][rotateTetromino];
 	let timeSet: number | undefined;
 
@@ -264,15 +278,44 @@ document.addEventListener("DOMContentLoaded", () => {
 				gameOver(currentPosition);
 
 				currentPosition = 3;
-				randomTetromino = Math.floor(
-					Math.random() * TetrominoShapes.length
-				);
+				randomTetromino = nextRandom;
+				nextRandom = Math.floor(Math.random() * TetrominoShapes.length);
 				currentTetromino = TetrominoShapes[randomTetromino][0];
 				findCompleteRow();
 				drawTetromino();
+				miniGridTetromino();
 			}
 		});
 	}
+
+	const miniGridSquares = (document.querySelectorAll(
+		".minigrid div"
+	) as unknown) as HTMLElement[];
+	const displayWidth = 5;
+
+	const upNextTetrominoes = [
+		[1, displayWidth + 1, displayWidth * 2 + 1, 2],
+		[0, displayWidth, displayWidth + 1, displayWidth * 2 + 1],
+		[1, displayWidth, displayWidth + 1, displayWidth + 2],
+		[0, 1, displayWidth, displayWidth + 1],
+		[1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1],
+	];
+
+	function miniGridTetromino() {
+		miniGridSquares.forEach((square) => {
+			square.classList.remove("tetromino");
+			square.style.backgroundColor = "";
+		});
+		const miniGridStartPos = currentPosition - 2;
+		upNextTetrominoes[nextRandom].forEach((index) => {
+			const tetrominoPos = displayWidth + index + miniGridStartPos;
+
+			miniGridSquares[tetrominoPos].classList.add("tetromino");
+			miniGridSquares[tetrominoPos].style.backgroundColor =
+				colors[nextRandom];
+		});
+	}
+	miniGridTetromino();
 
 	let gridlength = gridSquares.length;
 	let numOfTetrominoBlock = 0;
@@ -405,11 +448,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // issues
-// when row complete some block still left with taken @@@@
 // needs work on rotation of tetromino at edge @
 // some of the tetromino that should rotate at the edge wont rotate @
-// when multiple row are complete only one is remove until the next round @@@@@
 
 // updates
 // add mini map functionality  @@@
 // tetromino moves faster when sapce bar is click  @@
+
+//#########################
+//   COMPLETED TODOLIST
+//#########################
+
+// when multiple row are complete only one is remove until the next round @@@@@
+// when row complete some block still left with taken @@@@
