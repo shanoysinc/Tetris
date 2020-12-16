@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
             square.classList.remove("tetromino");
             square.style.backgroundColor = "";
         });
-        const miniGridStartPos = currentPosition - 2;
+        const miniGridStartPos = currentPosition - 1;
         upNextTetrominoes[nextRandom].forEach((index) => {
             const tetrominoPos = displayWidth + index + miniGridStartPos;
             miniGridSquares[tetrominoPos].classList.add("tetromino");
