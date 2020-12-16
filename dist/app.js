@@ -210,8 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 currentPosition = 3;
                 randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
                 currentTetromino = TetrominoShapes[randomTetromino][0];
-                // findCompleteRow();
-                findRow();
+                findCompleteRow();
                 drawTetromino();
             }
         });
@@ -221,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let cacheBlockPosition = {};
     let startRow = 0;
     let endRow = 0;
-    function findRow() {
+    function findCompleteRow() {
         for (let index = gridSquares.length - 1; index >= 0; index--) {
             const hasTetromino = gridSquares[index].classList.contains("tetromino");
             if (hasTetromino) {
@@ -241,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     endRow = 0;
                     startRow = 0;
                     gridlength = gridSquares.length;
-                    return findRow();
+                    return findCompleteRow();
                 }
                 // if row is has no tetromino  break the loop
                 if (numOfTetrominoBlock == 0) {
