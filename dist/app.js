@@ -231,6 +231,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
             if (gridlength - 10 === index) {
+                // we are starting from the end of the grid
+                // so we use the end of row as the start
                 startRow = index;
                 if (numOfTetrominoBlock === 10) {
                     removeBlocks(startRow, endRow);
@@ -238,13 +240,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     // return findCompleteRow();
                     endRow = 0;
                     startRow = 0;
+                    gridlength = gridSquares.length;
+                    return findRow();
                 }
-                gridlength = index;
-                // if row is has no tetromino just break
+                // if row is has no tetromino  break the loop
                 if (numOfTetrominoBlock == 0) {
                     gridlength = gridSquares.length;
                     break;
                 }
+                gridlength = index;
                 numOfTetrominoBlock = 0;
             }
         }
@@ -287,68 +291,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         cacheBlockPosition = {};
     }
-    /// UN USED
-    // function findCompleteRow(): typeof findCompleteRow | void {
-    // 	for (let index = gridSquares.length - 1; index >= 0; index--) {
-    // 		const hasTetromino = gridSquares[index].classList.contains(
-    // 			"tetromino"
-    // 		);
-    // 		if (hasTetromino) {
-    // 			numOfTetrominoBlock += 1;
-    // 			if (numOfTetrominoBlock === 10) {
-    // 				removeBlocks(gridlength - 10, gridlength);
-    // 				numOfTetrominoBlock = 0;
-    // 				return findCompleteRow();
-    // 			}
-    // 		}
-    // 		if (gridlength - 10 === index) {
-    // 			gridlength = index;
-    // 			if (numOfTetrominoBlock == 0) {
-    // 				gridlength = gridSquares.length;
-    // 				break;
-    // 			}
-    // 			numOfTetrominoBlock = 0;
-    // 		}
-    // 	}
-    // 	numOfTetrominoBlock = 0;
-    // 	gridlength = gridSquares.length;
-    // 	function removeBlocks(min: number, max: number) {
-    // 		for (let index = min; index <= max - 1; index++) {
-    // 			gridSquares[index].classList.remove("tetromino");
-    // 			gridSquares[index].style.backgroundColor = "";
-    // 		}
-    // 		undrawAllTetromino();
-    // 		drawAllTetromino();
-    // 		score += 100;
-    // 		scoreElement.textContent = `${score}`;
-    // 	}
-    // 	function drawAllTetromino() {
-    // 		let pos: keyof typeof cacheBlockPosition;
-    // 		for (pos in cacheBlockPosition) {
-    // 			const nextPos = parseInt(pos) + squareWidth;
-    // 			gridSquares[nextPos].classList.add("tetromino");
-    // 			gridSquares[nextPos].classList.add("taken");
-    // 			gridSquares[nextPos].style.backgroundColor =
-    // 				cacheBlockPosition[pos];
-    // 		}
-    // 		cacheBlockPosition = {};
-    // 	}
-    // 	function undrawAllTetromino() {
-    // 		for (let index = gridlength - 1; index >= 0; index--) {
-    // 			const hasTetromino = gridSquares[index].classList.contains(
-    // 				"tetromino"
-    // 			);
-    // 			if (index < 200 && hasTetromino) {
-    // 				cacheBlockPosition[index] =
-    // 					gridSquares[index].style.backgroundColor;
-    // 				gridSquares[index].classList.remove("tetromino");
-    // 				gridSquares[index].classList.remove("taken");
-    // 				gridSquares[index].style.backgroundColor = "";
-    // 			}
-    // 		}
-    // 		clearBlockAudio.play();
-    // 	}
-    // }
     function gameOver(currentPosition) {
         if (currentPosition <= 30) {
             themeMusic.pause();
