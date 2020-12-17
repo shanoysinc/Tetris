@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		"hsl(229, 83%, 55%)",
 		"hsl(345, 100%, 55%)",
 	];
-	let currentPosition = 4;
+	let currentPosition = 3;
 	let rotateTetromino = 0;
 	let randomTetromino = Math.floor(Math.random() * TetrominoShapes.length);
 	let nextRandom = Math.floor(Math.random() * TetrominoShapes.length);
@@ -452,12 +452,14 @@ document.addEventListener("DOMContentLoaded", () => {
 // some of the tetromino that should rotate at the edge wont rotate @
 
 // updates
-// add mini map functionality  @@@
-// tetromino moves faster when sapce bar is click  @@
+// tetromino moves faster when sapce bar is click  ###
+// see the next current tetromino position on grid ##
+// save high score to local storage ####
 
 //#########################
 //   COMPLETED TODOLIST
 //#########################
 
-// when multiple row are complete only one is remove until the next round @@@@@
-// when row complete some block still left with taken @@@@
+// when multiple row are complete only one is remove until the next round #####
+// when row complete some block still left with taken #####
+// add mini map functionality  ###
